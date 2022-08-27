@@ -1,4 +1,5 @@
 import mapPage from '../support/pages/Map'
+import CreatePage from '../support/pages/Create'
 
 describe('Recomendação', () => {
 
@@ -14,19 +15,17 @@ describe('Recomendação', () => {
             latitude: '-23.593604408436704',
             longitude: '-46.684293150901794',
             name: 'Tienda Del Chavo',
-            description: 'O melhor lugar para tomar um suco gelado e conversar com os amuigos',
-            opening_hours: 'das 14h as 20h'
+            details: 'O melhor lugar para tomar um suco gelado e conversar com os amigos',
+            opening_hours: 'das 14h as 20h',
+            open_on_weekends: false
         }
 
         cy.apiCreateUser(user)
         cy.uiLogin(user)
 
         mapPage.createLink()
-        cy.setGeolocation(foodtruck.latitude, foodtruck.longitude)
-
-        
-
-        cy.wait(30000)
-
+        CreatePage.form(foodtruck)
+        CreatePage.submit()
+        CreatePage.modal.haveText('Food truck cadastrado com sucesso!')
     })
 })
